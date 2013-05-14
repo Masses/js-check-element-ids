@@ -1,0 +1,75 @@
+/**
+ *  Created by Brian McCaffrey 2013
+ *  published under the MIT license
+ *
+**/
+var pageIDs = ["notify-container", "smelly", "overlay-header", "fake", "container", "butts"];
+function checkForIDs(idList)
+{
+    /** ensure that there are actually values in the idList **/
+    if (idList.length < 1)
+    {
+        /** spit out an error **/
+        console.log("checkForIDs Error: Please ensure you are passing an array of strings that represent the ids you're looking for.");
+    }
+    else
+    {
+        /** set up variables **/
+        var foundList = new Array();
+        var everything = document.getElementsByTagName("*");
+
+        /** outer loop through idList to check for existence of id on page **/
+        for (var i = 0; i < idList.length; i++)
+        {
+            /** attempt to grab id from page **/
+            var thisID = document.getElementById(idList[i]);
+
+            /** check to see if id exists **/
+            if (thisID)
+            {
+                var idCount = 0;
+                foundList.push(thisID);
+
+                /** id exists on page, check for duplicates **/
+                for (var j = 0; j < everything.length; j++)
+                {
+                    if (thisID == everything[j])
+                    {
+                        idCount = idCount + 1;
+                    }
+                } 
+
+                /** check to see if an id was detected more than once **/
+                if (idCount > 1)
+                {
+                    console.log("checkForIDs Error: Multiple elements have the id '" + thisID + "' set. Not safe to use this ID with normal JavaScript selection.")
+                }
+            }
+            /** id was not found on page, inform user **/
+            else
+            {
+                console.log("checkForIDs Error: ID of '" + idList[i] + "' could not be found on the page.");
+            }
+
+        } /** end outer loop **/
+
+        /** print out found list **/
+        if (foundList.length > 0)
+        {
+            var printOut = "Found IDs:" + foundList[0].id;
+            for (var i = 1; i < foundList.length; i++)
+            {
+                printOut = printOut + ", " + foundList[i].id;
+            }
+            console.log(printOut);
+        }
+        else
+        {
+            console.log("checkForIDs Error: None of the specified IDs could be found.");
+        }
+
+    }
+
+    return "End of checkForIDs Function";
+}
+checkForIDs(pageIDs);
